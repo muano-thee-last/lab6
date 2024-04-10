@@ -2,8 +2,6 @@
 const express = require('express');
 const app = express();
 
-
-
 app.use(express.json());
 
 const cars = require('./cars.json');
@@ -39,9 +37,7 @@ app.delete('/cars/:id', (req, res) => {
 
 //add car
 app.post('/cars', (req, res) => {
-    console.log(req);
     const newCar = req.body;
-    console.log(newCar);
     cars.push(newCar);
     res.json(newCar);
 });
@@ -50,7 +46,8 @@ app.get('/',(req,res)=>{
     res.send('Hello, Welcome To Lucky-Lot Cars');
 });
 
-//start app at localhost:3001
-app.listen(3001, () => {
-    console.log('Server started at http://localhost:3001');
+// Start the server to listen on port 3000 or the environment port
+const port = process.env.PORT || 3001;
+app.listen(port, () => {
+    console.log(`Server started at http://localhost:${port}`);
 });

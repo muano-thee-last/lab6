@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const carList = document.getElementById('carList');
     cars = [];
     loadCarsBtn.addEventListener('click', () => {
-        fetch('/cars')
+        fetch('http://localhost:3001/cars')
             .then(response => response.json())
             .then(data => {
                 cars = data;
@@ -27,8 +27,9 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     });
 });
+
 function addCar(newCar) {
-    fetch('/cars', {
+    fetch('http://localhost:3001/cars', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -39,7 +40,7 @@ function addCar(newCar) {
         .then(data => {
             console.log('Success:', data);
             //reload cars
-            // const loadCarsBtn = document.getElementById('loadCarsBtn');
+            const loadCarsBtn = document.getElementById('loadCarsBtn');
             loadCarsBtn.click();
         })
         .catch(error => {
@@ -47,6 +48,7 @@ function addCar(newCar) {
         });
 }
 
+const carForm = document.getElementById('carForm');
 carForm.addEventListener('submit', event => {
     event.preventDefault();
     const make = document.getElementById('make').value;
@@ -60,21 +62,23 @@ carForm.addEventListener('submit', event => {
 // Function to remove a car
 function removeCar(index) {
     const carId = cars[index].id;
-    fetch(`/cars/${carId}`, {
+    fetch(`http://localhost:3001/cars/${carId}`, {
         method: 'DELETE'
     })
         .then(response => response.json())
         .then(data => {
             console.log('Success:', data);
             //reload cars
-            // const loadCarsBtn = document.getElementById('loadCarsBtn');
+            const loadCarsBtn = document.getElementById('loadCarsBtn');
             loadCarsBtn.click();
         })
         .catch(error => {
             console.error('Error:', error);
         });
 }
+
 // Event delegation for remove buttons
+const carList = document.getElementById('carList');
 carList.addEventListener('click', event => {
     if (event.target.classList.contains('btn-remove')) {
         const index = event.target.dataset.index;
